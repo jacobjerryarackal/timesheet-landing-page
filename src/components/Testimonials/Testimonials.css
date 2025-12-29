@@ -1,0 +1,474 @@
+.testimonials {
+  background: #f8fafc;
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(37, 99, 235, 0.3), 
+    transparent
+  );
+}
+
+.testimonials::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(37, 99, 235, 0.3), 
+    transparent
+  );
+}
+
+.testimonials-container {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+}
+
+.testimonial-carousel {
+  position: relative;
+  padding: 0 60px;
+}
+
+.carousel-track {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+}
+
+.testimonial-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 32px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 50px;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-50%);
+  z-index: 1;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-card.active {
+  z-index: 3;
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(37, 99, 235, 0.1);
+}
+
+.testimonial-card.prev,
+.testimonial-card.next {
+  cursor: pointer;
+}
+
+.testimonial-card:hover:not(.active) {
+  transform: translateX(-50%) scale(0.98);
+  z-index: 2;
+}
+
+.quote-icon {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  font-size: 60px;
+  color: rgba(37, 99, 235, 0.1);
+  z-index: 1;
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.testimonial-info {
+  flex: 1;
+}
+
+.testimonial-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark-color);
+  margin-bottom: 4px;
+}
+
+.testimonial-role {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.testimonial-company {
+  color: var(--text-color);
+  opacity: 0.7;
+  font-size: 0.95rem;
+}
+
+.rating {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.star {
+  font-size: 24px;
+  color: #e2e8f0;
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #fbbf24;
+}
+
+.testimonial-text {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: var(--text-color);
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+  padding-left: 20px;
+  border-left: 4px solid rgba(37, 99, 235, 0.2);
+  padding-left: 30px;
+}
+
+.testimonial-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+  background: rgba(37, 99, 235, 0.03);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item .stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.stat-item .stat-label {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.testimonial-footer {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.tag {
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary-color);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: rgba(37, 99, 235, 0.15);
+  transform: translateY(-2px);
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 60px;
+  position: relative;
+  z-index: 4;
+}
+
+.carousel-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid rgba(37, 99, 235, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: scale(1.1);
+  box-shadow: 0 15px 40px rgba(37, 99, 235, 0.2);
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 12px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.dot.active {
+  background: var(--primary-color);
+  transform: scale(1.3);
+}
+
+.dot:hover:not(.active) {
+  background: rgba(37, 99, 235, 0.4);
+  transform: scale(1.1);
+}
+
+.testimonial-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 80px;
+}
+
+.highlight-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 24px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+.highlight-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  border-color: rgba(37, 99, 235, 0.1);
+}
+
+.highlight-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.highlight-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark-color);
+  margin-bottom: 12px;
+}
+
+.highlight-card p {
+  color: var(--text-color);
+  opacity: 0.8;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.testimonial-companies {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.companies-label {
+  color: var(--text-color);
+  opacity: 0.7;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.companies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.company-logo {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  font-weight: 700;
+  color: var(--dark-color);
+  font-size: 1.2rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.company-logo:hover {
+  border-color: rgba(37, 99, 235, 0.2);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+}
+
+@media (max-width: 1024px) {
+  .testimonial-carousel {
+    padding: 0 40px;
+  }
+  
+  .testimonial-card {
+    padding: 40px;
+  }
+  
+  .testimonial-text {
+    font-size: 1.1rem;
+  }
+  
+  .testimonial-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .stat-item .stat-value {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonials {
+    padding: 80px 0;
+  }
+  
+  .testimonial-carousel {
+    padding: 0 20px;
+  }
+  
+  .carousel-track {
+    height: 600px;
+  }
+  
+  .testimonial-card {
+    padding: 30px;
+  }
+  
+  .testimonial-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .testimonial-stats {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .testimonial-footer {
+    justify-content: center;
+  }
+  
+  .carousel-controls {
+    margin-top: 40px;
+    gap: 30px;
+  }
+  
+  .testimonial-highlights {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .companies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonial-carousel {
+    padding: 0 10px;
+  }
+  
+  .testimonial-card {
+    padding: 25px;
+  }
+  
+  .quote-icon {
+    top: 20px;
+    right: 20px;
+    font-size: 40px;
+  }
+  
+  .avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+  
+  .testimonial-text {
+    font-size: 1rem;
+    padding-left: 20px;
+  }
+  
+  .carousel-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+  
+  .companies-grid {
+    grid-template-columns: 1fr;
+  }
+}
