@@ -292,45 +292,6 @@ const Contact: React.FC = () => {
             )}
           </div>
         </div>
-
-        {/* Demo CTA */}
-        <div className="demo-cta">
-          <div className="demo-content">
-            <h3>Schedule a personalized demo</h3>
-            <p>See how TimeTrack Pro can help your team achieve 8-hour daily and 40-hour weekly targets</p>
-            <div className="demo-features">
-              <div className="demo-feature">
-                <div className="feature-number">01</div>
-                <div className="feature-content">
-                  <h4>8-Hour Daily Walkthrough</h4>
-                  <p>See how we optimize daily productivity tracking</p>
-                </div>
-              </div>
-              <div className="demo-feature">
-                <div className="feature-number">02</div>
-                <div className="feature-content">
-                  <h4>40-Hour Weekly Demo</h4>
-                  <p>Learn about comprehensive weekly reporting</p>
-                </div>
-              </div>
-              <div className="demo-feature">
-                <div className="feature-number">03</div>
-                <div className="feature-content">
-                  <h4>Team Setup Session</h4>
-                  <p>Get your team onboarded efficiently</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="demo-actions">
-            <Button type="primary" size="large">
-              Schedule Demo
-            </Button>
-            <Button type="outline" size="large">
-              Watch Quick Tour
-            </Button>
-          </div>
-        </div>
       </div>
     </section>
   );
