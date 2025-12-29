@@ -16,6 +16,24 @@
   background: linear-gradient(90deg, transparent, var(--border-color), transparent);
 }
 
+.pricing .section-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #fff, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pricing .section-subtitle {
+  font-size: 1.25rem;
+  color: #cbd5e1;
+  max-width: 600px;
+  margin: 0 auto 60px;
+  opacity: 0.8;
+}
+
 .billing-toggle-container {
   display: flex;
   justify-content: center;
