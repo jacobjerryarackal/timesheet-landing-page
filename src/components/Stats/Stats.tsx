@@ -20,7 +20,7 @@ interface Stat {
 }
 
 const Stats: React.FC = () => {
-  const [counts, setCounts] = useState([0, 0, 0, 0, 0]);
+  const [counts, setCounts] = useState([0, 0, 0, 0]);
   const [animated, setAnimated] = useState(false);
   
   const stats: Stat[] = [
@@ -47,14 +47,6 @@ const Stats: React.FC = () => {
       suffix: '%',
       color: '#10b981',
       gradient: 'linear-gradient(135deg, #10b981, #059669)'
-    },
-    {
-      icon: <FiCheckCircle />,
-      value: 99.9,
-      label: 'Uptime',
-      suffix: '%',
-      color: '#f59e0b',
-      gradient: 'linear-gradient(135deg, #f59e0b, #d97706)'
     },
     {
       icon: <FiZap />,

@@ -147,7 +147,7 @@
   min-height: 64px;
 }
 
-.stat-value {
+.stats .stat-value {
   font-size: 3.5rem;
   font-weight: 800;
   background: linear-gradient(135deg, #fff, #e2e8f0);
