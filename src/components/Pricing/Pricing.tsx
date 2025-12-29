@@ -110,7 +110,6 @@ const Pricing: React.FC = () => {
     { icon: <FiBarChart2 />, title: '40-Hour Weekly Reports', description: 'Comprehensive weekly performance insights' },
     { icon: <FiTrendingUp />, title: 'Monthly Analytics', description: 'Long-term trend analysis and forecasting' },
     { icon: <FiUsers />, title: 'Team Management', description: 'Manage unlimited team members and projects' },
-    { icon: <FiShield />, title: 'Enterprise Security', description: 'Bank-level security and compliance' },
   ];
 
   const savings = billingPeriod === 'yearly' ? 25 : 0;
@@ -278,7 +277,7 @@ const Pricing: React.FC = () => {
             <Button type="primary" size="large">
               Contact Sales
             </Button>
-            <Button type="outline" size="large">
+            <Button type="secondary" size="large">
               Schedule Demo
             </Button>
           </div>
