@@ -7,6 +7,8 @@ export async function GET(request: Request) {
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/dashboard'
 
+  console.log('Callback reached', { code: !!code, next, origin })
+
   if (code) {
     const cookieStore = await cookies()
 
@@ -19,20 +21,30 @@ export async function GET(request: Request) {
             return cookieStore.getAll()
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+            try {
+              cookiesToSet.forEach(({ name, value, options }) =>
+                cookieStore.set(name, value, options)
+              )
+            } catch (error) {
+              // The `setAll` method was called from a Server Component.
+              // This can be ignored if you have middleware refreshing user sessions.
+            }
           },
         },
       }
     )
 
     const { error } = await supabase.auth.exchangeCodeForSession(code)
+    console.log('Exchange result', { error })
 
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+      const redirectUrl = `${origin}${next}`
+      console.log('Redirecting to', redirectUrl)
+      return NextResponse.redirect(redirectUrl)
     }
   }
 
+  // If there's an error or no code, redirect to an error page
+  console.log('Redirecting to error page')
   return NextResponse.redirect(`${origin}/auth/auth-code-error`)
 }
