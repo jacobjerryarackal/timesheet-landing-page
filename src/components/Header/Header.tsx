@@ -54,12 +54,12 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="header-actions">
-          <Link href="/login">
+          <Link href="/auth/login">
             <Button type="outline" size="small" icon={<FiLogIn />}>
               Login
             </Button>
           </Link>
-          <Link href="/signup">
+          <Link href="/auth/signup">
             <Button type="primary" size="small" icon={<FaUserPlus />}>
               Get Started
             </Button>
