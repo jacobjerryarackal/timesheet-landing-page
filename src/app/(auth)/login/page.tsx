@@ -14,11 +14,39 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [validationErrors, setValidationErrors] = useState<{ email?: string; password?: string }>({})
   const router = useRouter()
   const supabase = createClient()
 
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+  }
+
+  const validateForm = () => {
+    const errors: { email?: string; password?: string } = {}
+    
+    if (!email) {
+      errors.email = 'Email is required'
+    } else if (!validateEmail(email)) {
+      errors.email = 'Please enter a valid email address'
+    }
+    
+    if (!password) {
+      errors.password = 'Password is required'
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters'
+    }
+    
+    setValidationErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!validateForm()) return
+    
     setLoading(true)
     setError(null)
 
@@ -38,12 +66,15 @@ export default function LoginPage() {
 
   const handleOAuthLogin = async (provider: 'google' | 'github' | 'twitter') => {
     setLoading(true)
+    setError(null)
+    
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     })
+    
     if (error) {
       setError(error.message)
       setLoading(false)
@@ -88,7 +119,7 @@ export default function LoginPage() {
               </Link>
             </p>
 
-            <form onSubmit={handleEmailLogin} className={styles.form}>
+            <form onSubmit={handleEmailLogin} className={styles.form} noValidate>
               <div className={styles.inputGroup}>
                 <label htmlFor="email" className={styles.label}>
                   <FiMail className={styles.inputIcon} /> Email
@@ -97,12 +128,21 @@ export default function LoginPage() {
                   type="email"
                   id="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    if (validationErrors.email) {
+                      setValidationErrors({ ...validationErrors, email: undefined })
+                    }
+                  }}
+                  onBlur={() => validateForm()}
                   placeholder="you@example.com"
                   required
-                  className={styles.input}
+                  className={`${styles.input} ${validationErrors.email ? styles.inputError : ''}`}
                   disabled={loading}
                 />
+                {validationErrors.email && (
+                  <span className={styles.fieldError}>{validationErrors.email}</span>
+                )}
               </div>
 
               <div className={styles.inputGroup}>
@@ -113,15 +153,34 @@ export default function LoginPage() {
                   type="password"
                   id="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                    if (validationErrors.password) {
+                      setValidationErrors({ ...validationErrors, password: undefined })
+                    }
+                  }}
+                  onBlur={() => validateForm()}
                   placeholder="••••••••"
                   required
-                  className={styles.input}
+                  className={`${styles.input} ${validationErrors.password ? styles.inputError : ''}`}
                   disabled={loading}
                 />
+                {validationErrors.password && (
+                  <span className={styles.fieldError}>{validationErrors.password}</span>
+                )}
               </div>
 
-              {error && <div className={styles.error}>{error}</div>}
+              {error && (
+                <div className={styles.error}>
+                  {error.includes('provider is not enabled') ? (
+                    <>
+                      <strong>OAuth not configured.</strong> Please enable the provider in your Supabase dashboard.
+                    </>
+                  ) : (
+                    error
+                  )}
+                </div>
+              )}
 
               <Button
                 type="primary"
@@ -143,6 +202,7 @@ export default function LoginPage() {
                 onClick={() => handleOAuthLogin('google')}
                 className={styles.socialButton}
                 disabled={loading}
+                title="Sign in with Google"
               >
                 <FaGoogle />
               </button>
@@ -150,6 +210,7 @@ export default function LoginPage() {
                 onClick={() => handleOAuthLogin('github')}
                 className={styles.socialButton}
                 disabled={loading}
+                title="Sign in with GitHub"
               >
                 <FiGithub />
               </button>
@@ -157,6 +218,7 @@ export default function LoginPage() {
                 onClick={() => handleOAuthLogin('twitter')}
                 className={styles.socialButton}
                 disabled={loading}
+                title="Sign in with Twitter"
               >
                 <FiTwitter />
               </button>
