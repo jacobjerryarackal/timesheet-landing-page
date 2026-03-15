@@ -251,6 +251,37 @@
   text-align: center;
 }
 
+.inputError {
+  border-color: var(--danger-color) !important;
+  background-color: #fff5f5;
+}
+
+.inputError:focus {
+  border-color: var(--danger-color) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.fieldError {
+  color: var(--danger-color);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.error {
+  background: #fee2e2;
+  color: var(--danger-color);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  border: 1px solid #fecaca;
+}
+
+.error strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
 @media (max-width: 768px) {
   .wrapper {
     grid-template-columns: 1fr;
