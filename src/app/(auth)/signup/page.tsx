@@ -16,19 +16,56 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [validationErrors, setValidationErrors] = useState<{
+    fullName?: string
+    email?: string
+    password?: string
+    confirmPassword?: string
+  }>({})
   const router = useRouter()
   const supabase = createClient()
 
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+  }
+
+  const validateForm = () => {
+    const errors: typeof validationErrors = {}
+    
+    if (!fullName.trim()) {
+      errors.fullName = 'Full name is required'
+    }
+    
+    if (!email) {
+      errors.email = 'Email is required'
+    } else if (!validateEmail(email)) {
+      errors.email = 'Please enter a valid email address'
+    }
+    
+    if (!password) {
+      errors.password = 'Password is required'
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters'
+    }
+    
+    if (!confirmPassword) {
+      errors.confirmPassword = 'Please confirm your password'
+    } else if (password !== confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match'
+    }
+    
+    setValidationErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!validateForm()) return
+    
     setLoading(true)
     setError(null)
-
-    if (password !== confirmPassword) {
-      setError("Passwords don't match")
-      setLoading(false)
-      return
-    }
 
     const { error: signUpError, data } = await supabase.auth.signUp({
       email,
@@ -53,12 +90,15 @@ export default function SignupPage() {
 
   const handleOAuthSignup = async (provider: 'google' | 'github' | 'twitter') => {
     setLoading(true)
+    setError(null)
+    
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     })
+    
     if (error) {
       setError(error.message)
       setLoading(false)
@@ -107,7 +147,7 @@ export default function SignupPage() {
               </Link>
             </p>
 
-            <form onSubmit={handleEmailSignup} className={styles.form}>
+            <form onSubmit={handleEmailSignup} className={styles.form} noValidate>
               <div className={styles.inputGroup}>
                 <label htmlFor="fullName" className={styles.label}>
                   <FiUser className={styles.inputIcon} /> Full Name
@@ -116,12 +156,21 @@ export default function SignupPage() {
                   type="text"
                   id="fullName"
                   value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  onChange={(e) => {
+                    setFullName(e.target.value)
+                    if (validationErrors.fullName) {
+                      setValidationErrors({ ...validationErrors, fullName: undefined })
+                    }
+                  }}
+                  onBlur={() => validateForm()}
                   placeholder="John Doe"
                   required
-                  className={styles.input}
+                  className={`${styles.input} ${validationErrors.fullName ? styles.inputError : ''}`}
                   disabled={loading}
                 />
+                {validationErrors.fullName && (
+                  <span className={styles.fieldError}>{validationErrors.fullName}</span>
+                )}
               </div>
 
               <div className={styles.inputGroup}>
@@ -132,12 +181,21 @@ export default function SignupPage() {
                   type="email"
                   id="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    if (validationErrors.email) {
+                      setValidationErrors({ ...validationErrors, email: undefined })
+                    }
+                  }}
+                  onBlur={() => validateForm()}
                   placeholder="you@example.com"
                   required
-                  className={styles.input}
+                  className={`${styles.input} ${validationErrors.email ? styles.inputError : ''}`}
                   disabled={loading}
                 />
+                {validationErrors.email && (
+                  <span className={styles.fieldError}>{validationErrors.email}</span>
+                )}
               </div>
 
               <div className={styles.inputGroup}>
@@ -148,12 +206,21 @@ export default function SignupPage() {
                   type="password"
                   id="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                    if (validationErrors.password) {
+                      setValidationErrors({ ...validationErrors, password: undefined })
+                    }
+                  }}
+                  onBlur={() => validateForm()}
                   placeholder="••••••••"
                   required
-                  className={styles.input}
+                  className={`${styles.input} ${validationErrors.password ? styles.inputError : ''}`}
                   disabled={loading}
                 />
+                {validationErrors.password && (
+                  <span className={styles.fieldError}>{validationErrors.password}</span>
+                )}
               </div>
 
               <div className={styles.inputGroup}>
@@ -164,15 +231,34 @@ export default function SignupPage() {
                   type="password"
                   id="confirmPassword"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value)
+                    if (validationErrors.confirmPassword) {
+                      setValidationErrors({ ...validationErrors, confirmPassword: undefined })
+                    }
+                  }}
+                  onBlur={() => validateForm()}
                   placeholder="••••••••"
                   required
-                  className={styles.input}
+                  className={`${styles.input} ${validationErrors.confirmPassword ? styles.inputError : ''}`}
                   disabled={loading}
                 />
+                {validationErrors.confirmPassword && (
+                  <span className={styles.fieldError}>{validationErrors.confirmPassword}</span>
+                )}
               </div>
 
-              {error && <div className={styles.error}>{error}</div>}
+              {error && (
+                <div className={styles.error}>
+                  {error.includes('provider is not enabled') ? (
+                    <>
+                      <strong>OAuth not configured.</strong> Please enable the provider in your Supabase dashboard.
+                    </>
+                  ) : (
+                    error
+                  )}
+                </div>
+              )}
 
               <Button
                 type="primary"
@@ -194,6 +280,7 @@ export default function SignupPage() {
                 onClick={() => handleOAuthSignup('google')}
                 className={styles.socialButton}
                 disabled={loading}
+                title="Sign up with Google"
               >
                 <FaGoogle />
               </button>
@@ -201,6 +288,7 @@ export default function SignupPage() {
                 onClick={() => handleOAuthSignup('github')}
                 className={styles.socialButton}
                 disabled={loading}
+                title="Sign up with GitHub"
               >
                 <FiGithub />
               </button>
@@ -208,6 +296,7 @@ export default function SignupPage() {
                 onClick={() => handleOAuthSignup('twitter')}
                 className={styles.socialButton}
                 disabled={loading}
+                title="Sign up with Twitter"
               >
                 <FiTwitter />
               </button>
