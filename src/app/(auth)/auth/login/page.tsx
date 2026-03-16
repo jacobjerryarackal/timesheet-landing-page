@@ -114,7 +114,7 @@ export default function LoginPage() {
             <h2 className={styles.formTitle}>Sign in to your account</h2>
             <p className={styles.formSubtitle}>
               New here?{' '}
-              <Link href="/signup" className={styles.link}>
+              <Link href="/auth/signup" className={styles.link}>
                 Create an account
               </Link>
             </p>
