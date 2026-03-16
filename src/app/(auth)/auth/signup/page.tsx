@@ -142,7 +142,7 @@ export default function SignupPage() {
             <h2 className={styles.formTitle}>Create your account</h2>
             <p className={styles.formSubtitle}>
               Already have an account?{' '}
-              <Link href="/login" className={styles.link}>
+              <Link href="/auth/login" className={styles.link}>
                 Sign in
               </Link>
             </p>
