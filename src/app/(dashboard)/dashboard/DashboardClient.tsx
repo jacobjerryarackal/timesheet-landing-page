@@ -119,8 +119,6 @@ export default function DashboardClient({
     return filtered
   }
 
-  console.log(user.id)
-
   const filteredTimesheets = getFilteredTimesheets()
   const filteredTotal = filteredTimesheets.reduce((sum, ts) => sum + ts.hours, 0)
   const filteredPending = filteredTimesheets.filter((ts) => ts.status === 'pending').length
